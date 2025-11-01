@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예금 이자 계산기</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>예금 이자 계산기</h1>
+            <p class="subtitle">원금, 이자율, 기간을 입력하면 만기 금액을 계산합니다</p>
+        </header>
+
+        <!-- 입력 및 계산 영역 -->
+        <section class="calculator-section">
+            <div class="card">
+                <h2>계산 입력</h2>
+                <form id="calculatorForm">
+                    <div class="form-group">
+                        <label for="principal">원금 (₩)</label>
+                        <input type="number" id="principal" name="principal" min="1" placeholder="예: 1000000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rate">연이자율 (%)</label>
+                        <input type="number" id="rate" name="rate" min="0.01" step="0.01" placeholder="예: 3.5" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="years">기간 (년)</label>
+                        <input type="number" id="years" name="years" min="0.01" step="0.01" placeholder="예: 2" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interestType">이자 방식</label>
+                        <select id="interestType" name="interestType">
+                            <option value="simple">단리</option>
+                            <option value="compound">복리</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="calcName">계산 이름 (선택사항)</label>
+                        <input type="text" id="calcName" name="calcName" placeholder="예: 2년 예금, 주택청약 등">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">계산하기</button>
+                </form>
+            </div>
+
+            <!-- 결과 표시 영역 -->
+            <div class="card result-card" id="resultCard" style="display: none;">
+                <h2>계산 결과</h2>
+                <div class="result-content">
+                    <div class="result-item">
+                        <span class="result-label">원금</span>
+                        <span class="result-value" id="resultPrincipal">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">이자액</span>
+                        <span class="result-value highlight" id="resultInterest">-</span>
+                    </div>
+                    <div class="result-item total">
+                        <span class="result-label">만기 금액</span>
+                        <span class="result-value" id="resultTotal">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 그래프 영역 -->
+            <div class="card graph-card" id="graphCard" style="display: none;">
+                <h2>이자 성장 그래프</h2>
+                <canvas id="interestChart"></canvas>
+            </div>
+        </section>
+
+        <!-- 정렬 및 필터 영역 -->
+        <section class="filter-section">
+            <div class="card">
+                <h2>내역 관리</h2>
+                <div class="controls">
+                    <div class="filter-group">
+                        <label for="sortBy">정렬 기준</label>
+                        <select id="sortBy">
+                            <option value="date">계산일순</option>
+                            <option value="years">기간순</option>
+                            <option value="rate">이자율순</option>
+                            <option value="amount">만기금액순</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="filterType">이자 방식 필터</label>
+                        <select id="filterType">
+                            <option value="all">전체</option>
+                            <option value="simple">단리</option>
+                            <option value="compound">복리</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn btn-danger" id="clearAllBtn">전체 초기화</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 내역 표시 영역 -->
+        <section class="history-section">
+            <div class="card">
+                <h2>계산 내역</h2>
+                <div id="historyList" class="history-list">
+                    <p class="empty-message">아직 계산 내역이 없습니다.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
